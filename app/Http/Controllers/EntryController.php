@@ -90,10 +90,12 @@ class EntryController extends Controller
         $entries = Entry::where('status',2)->pluck('driver_id');
         //$driver = Driver::where('id',$entries[0])->pluck('email');
         $value = Entry::where('status','2')->pluck('driver_id')->all();
+        $myval = Entry::where('status','2')->join('drivers', 'entries.driver_id', '=', 'drivers.id')->join('cars', 'entries.car_id' , '=' , 'cars.id')->get();
+        $name = $myval->pluck('name');
+        $vehicle = $myval->pluck('vehicle_no');
         if($value != []){
-
             $title = 'Sleep ALERT !! from SafeDriver';
-            Mail::to($users)->send(new SleepyState($title,$entries));
+            Mail::to($users)->send(new SleepyState($title,$entries,$name,$vehicle));
             return response()->json(['success' => 'Send email successfully.']);
         }
         //Mail::to($request->user())->cc($moreUsers)->bcc($evenMoreUsers)->; 

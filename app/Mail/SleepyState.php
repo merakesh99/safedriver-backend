@@ -16,10 +16,12 @@ class SleepyState extends Mailable
      *
      * @return void
      */
-    public function __construct($title,$entries)
+    public function __construct($title,$entries,$name,$vehicle)
     {
         $this->title = $title;
         $this->entries = $entries;
+        $this->name = $name;
+        $this->vehicle = $vehicle;
     }
 
     /**
@@ -29,6 +31,6 @@ class SleepyState extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->title)->view('sleepy_alert',['ID' => $this->entries]);
+        return $this->subject($this->title)->view('sleepy_alert',['Name' => $this->name, 'ID'=>$this->entries, 'Vehicle_No'=>$this->vehicle]);
     }
 }
